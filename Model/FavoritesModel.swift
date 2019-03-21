@@ -8,7 +8,7 @@
 
 import Foundation
 
-class FavoritesModel : NSObject {
+class Favorites : NSObject {
     private var favorites : [(String,Int)] = [] //Tuple of favorites, sorted by most petted. Key is index of animal, and value is number of times petted.
     
     func reload() {

@@ -13,6 +13,7 @@ private let reuseIdentifier = "exploreCellReuseIdentifier"
 class ExploreCollectionViewController: MooWhoCollectionViewController {
 
     var chosenAnimalIndex : Int?
+    let animals = Animals()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,13 +38,13 @@ class ExploreCollectionViewController: MooWhoCollectionViewController {
     // MARK: UICollectionViewDataSource
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return animalCount()
+        return animals.animalCount()
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ExploreCollectionViewCell
         
-        if let imageName = croppedImageURL(forIndex: indexPath.row) {
+        if let imageName = animals.croppedImageURL(forIndex: indexPath.row) {
             cell.imageView.image = UIImage.init(named: imageName)
         }
 

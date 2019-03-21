@@ -11,7 +11,8 @@ import UIKit
 class FavoritesViewController: MooWhoCollectionViewController {
     
     var selectedFavorite : Int = -1
-    let favoritesModel : FavoritesModel = FavoritesModel.init()
+    let favoritesModel : Favorites = Favorites.init()
+    let animals:Animals = Animals()
     
     override func viewDidLoad() {
         favoritesModel.reload()
@@ -64,7 +65,7 @@ class FavoritesViewController: MooWhoCollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favReuseIdentifier", for: indexPath) as! FavoritesCollectionViewCell
       //  cell.contentView.translatesAutoresizingMaskIntoConstraints = false
         let animalIndex = favoritesModel.mapFavoriteIndexToActualIndex(for: indexPath.row)
-        let imagePath = croppedImageURL(forIndex: animalIndex)
+        let imagePath = animals.croppedImageURL(forIndex: animalIndex)
         cell.imageView?.image = UIImage.init(named: imagePath!)
         return cell
     }

@@ -1,5 +1,5 @@
 //
-//  AnimalMapping.swift
+//  Animal.swift
 //  MooWho
 //
 //  Created by Priyanka Joshi on 6/25/18.
@@ -13,6 +13,7 @@ struct Animal {
     let sound : String
     let childName : String
 }
+
 
 private let dog = Animal(name: "Dog", sound : "dogbark.m4a", childName: "Puppy")
 private let cat = Animal(name: "Cat", sound : "catmeow.m4a", childName: "Kitten")
@@ -31,6 +32,7 @@ private let mouse = Animal(name: "Mouse", sound : "mousesqueak.m4a", childName: 
 private let monkey = Animal(name: "Monkey", sound : "monkey.m4a", childName: "Infant")
 private let donkey = Animal(name: "Donkey", sound : "donkeybraying.m4a", childName: "Foal")
 
+struct Animals {
 
 private let animals = [dog, cat, frog, duck, cow, lion, pig, elephant, goat, sheep, horse, rooster, owl, mouse, monkey, donkey]
 
@@ -110,6 +112,8 @@ func croppedImageURL(forIndex index : Int) -> String? {
 
 func animalCount() -> Int {
     return animals.count
+}
+    
 }
 
 extension Array {

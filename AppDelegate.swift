@@ -70,10 +70,11 @@ Failed to load the "NORTHWEST" font. Make sure the font file is included in the 
 
     //MARK: Audio
     
-    //Plays a random animal sound, and returns the index of that animal
+    //Plays a random animal sound, and returqns the index of that animal
     func playAnimalSound() -> (Int, [Int]) {
-        let (animalIndex, animalArray) = generateRandomAnimals(with: CircleLayout.NUM_OF_CANDIDATES)
-        audioPlayerHelper.playSound(animalSound: animalSound(for: animalIndex)!, numberOfLoops: 0)
+        let animals = Animals()
+        let (animalIndex, animalArray) = animals.generateRandomAnimals(with: CircleLayout.NUM_OF_CANDIDATES)
+        audioPlayerHelper.playSound(animalSound: animals.animalSound(for: animalIndex)!, numberOfLoops: 0)
         return (animalIndex, animalArray)
     }
 

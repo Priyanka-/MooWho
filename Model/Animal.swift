@@ -36,23 +36,18 @@ struct Animals {
 
 private let animals = [dog, cat, frog, duck, cow, lion, pig, elephant, goat, sheep, horse, rooster, owl, mouse, monkey, donkey]
 
-func randomAnimalIndex() -> Int {
-    return Int(arc4random_uniform(UInt32(animals.count)))
-}
-
 /*
  Returns a tuple containing a random index and an array of random indices. The random index is at a random position in the random array
  */
 func generateRandomAnimals(with count: Int) -> (Int, [Int]) {
- //   let randomIndex = Int(arc4random_uniform(UInt32(animals.count)))
     var randomArray: [Int] = [Int]()
     var n = 0
     var randomIndex: Int = 0
-    let chosenPosition: Int = Int(arc4random_uniform(UInt32(count)))
+    let chosenPosition: Int = Int.random(in: 0..<count)
     var chosenIndex: Int = 0
     
     while (n < count) {
-        randomIndex = Int(arc4random_uniform(UInt32(animals.count)))
+        randomIndex = Int.random(in: 0..<animals.count)
         if (!randomArray.contains(randomIndex)) {
             randomArray.append(randomIndex)
             if (n==chosenPosition) {

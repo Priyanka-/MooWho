@@ -21,7 +21,7 @@ class Favorites : NSObject {
     }
     
     func nextFavoriteAnimalIndex(for index: Int) -> Int? {
-        let position: Int? = favorites.index(where: {Int($0.0) == index})
+        let position: Int? = favorites.firstIndex(where: {Int($0.0) == index})
         if(position == nil || position == (favorites.count-1)) {
             return nil
         }

@@ -125,7 +125,7 @@ class AnimalIdentificationViewController: MooWhoViewController, UICollectionView
     override func performSegue(withIdentifier identifier: String, sender: Any?) {
         if (identifier == "animalDetailSegue") {
             super.performSegue(withIdentifier: identifier, sender: sender)
-            self.navigationController?.viewControllers.remove(at: (self.navigationController?.viewControllers.index(of: self))!)
+            self.navigationController?.viewControllers.remove(at: (self.navigationController?.viewControllers.firstIndex(of: self))!)
         }
     }
     

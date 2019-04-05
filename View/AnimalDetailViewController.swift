@@ -59,8 +59,8 @@ class AnimalDetailViewController: MooWhoViewController {
     var chosenAnimalIndex : Int = -1
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    var favoritesDelegate: Favorites?  // Set when coming from favorites tab
-    let animals = Animals()
+    var favorites = Favorites.init()
+    let animals = Animals.init()
     
     enum navigationContext : Int{
         case playNavigationContext = 0, favoriteNavigationContext, exploreNavigationContext
@@ -113,7 +113,7 @@ class AnimalDetailViewController: MooWhoViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setFavoriteUI(isFavorite: MooWhoUserDefaultsManager.isFavorite(index: chosenAnimalIndex))
+        setFavoriteUI(isFavorite: favorites.isFavorite(index: chosenAnimalIndex))
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -129,7 +129,7 @@ class AnimalDetailViewController: MooWhoViewController {
     @IBAction func favoritesButtonTapped(_ sender: Any) {
         heartBubblesScene.beginBubbling()
 
-        if (!MooWhoUserDefaultsManager.incrementFavoriteScore(of: chosenAnimalIndex)) {
+        if (!favorites.incrementFavoriteScore(of: chosenAnimalIndex)) {
             setFavoriteUI(isFavorite: true)
         }
     }
@@ -176,7 +176,7 @@ class AnimalDetailViewController: MooWhoViewController {
     }
     
     func handleFavsTabRightSwipe() {
-        goToDetailPage(with: favoritesDelegate?.nextFavoriteAnimalIndex(for: chosenAnimalIndex))
+        goToDetailPage(with: favorites.next(after: chosenAnimalIndex))
     }
     
     func handleFavsTabLeftSwipe() {
@@ -203,17 +203,12 @@ class AnimalDetailViewController: MooWhoViewController {
         performSegue(withIdentifier: "unwindToPlayViewController", sender: self)
     }
     
-   
-    
     func goToDetailPage(with index: Int?) {
         if (animals.isValidIndex(index: index)) {
             let nextDetailPage:AnimalDetailViewController = UIStoryboard(name: "Main", bundle: nil)
                 .instantiateViewController(withIdentifier: "detailPageStoryboardID")
                 as! AnimalDetailViewController
             nextDetailPage.chosenAnimalIndex = index!
-            if (favoritesDelegate != nil) {
-                nextDetailPage.favoritesDelegate = favoritesDelegate
-            }
             self.navigationController!.pushViewController(nextDetailPage, animated: true)
         }
     }

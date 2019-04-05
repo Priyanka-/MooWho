@@ -8,36 +8,54 @@
 
 import Foundation
 
-class Favorites : NSObject {
-    private var favorites : [(String,Int)] = [] //Tuple of favorites, sorted by most petted. Key is index of animal, and value is number of times petted.
-    
-    func reload() {
-        let favs = MooWhoUserDefaultsManager.getFavorites()
-        favorites = favs.valueKeySorted
+struct Favorites {
+    var isEmpty : Bool {
+        return MooWhoStorage.shared.getFavorites().count == 0
     }
     
-    func numberOfFavorites() -> Int {
-        return favorites.count
+    var count: Int {
+        return MooWhoStorage.shared.getFavorites().count
     }
     
-    func nextFavoriteAnimalIndex(for index: Int) -> Int? {
-        let position: Int? = favorites.firstIndex(where: {Int($0.0) == index})
-        if(position == nil || position == (favorites.count-1)) {
+    func next(after index: Int) -> Int? {
+        let favorites = MooWhoStorage.shared.getFavorites()
+        let position: Int? = find(animalIndex: index)
+        if (position == nil || position == (favorites.count-1)) {
             return nil
         }
-        return Int(favorites[favorites.index(after:position!)].0)
+        return favorites[position! + 1].animalIndex
     }
     
-    func deleteFavorite(at index:Int) {
-        var favs = MooWhoUserDefaultsManager.getFavorites()
-        let animalIndex = mapFavoriteIndexToActualIndex(for: index)
-        favs.removeValue(forKey: String(animalIndex))
-        MooWhoUserDefaultsManager.setFavorites(favs: favs)
-        reload()
+    func delete(at index:Int) {
+        let animalInd = animalIndex(for: index)
+        MooWhoStorage.shared.delete(atIndex: animalInd)
     }
     
-    func mapFavoriteIndexToActualIndex(for index: Int) -> Int {
-        return Int(favorites[index].0)!
+    func find(animalIndex:Int) -> Int? {
+        return MooWhoStorage.shared.getFavorites().firstIndex(where: {$0.animalIndex == animalIndex})
+    }
+    
+    func isFavorite(index: Int) -> Bool {
+        let fav = find(animalIndex:index)
+        return fav != nil
+    }
+    
+    func animalIndex(for index: Int) -> Int {
+        return MooWhoStorage.shared.getFavorites()[index].animalIndex
+    }
+    
+    func incrementFavoriteScore(of animalIndex:Int) -> Bool{
+        let favIndex = find(animalIndex: animalIndex)
+        let isFav = (favIndex != nil)
+        if (favIndex == nil) {
+            let favorite = Favorite.init(index: animalIndex, score: 1)
+            MooWhoStorage.shared.add(favorite: favorite)
+        } else {
+            var favorite = MooWhoStorage.shared.getFavorites()[favIndex!]
+            favorite.favoriteScore += 1
+            MooWhoStorage.shared.replace(favorite:favorite, at:favIndex!)
+        }
+        return isFav
     }
     
 }

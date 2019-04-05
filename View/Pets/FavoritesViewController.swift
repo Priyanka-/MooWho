@@ -15,7 +15,6 @@ class FavoritesViewController: MooWhoCollectionViewController {
     let animals:Animals = Animals()
     
     override func viewDidLoad() {
-        favoritesModel.reload()
         let deleteMenuItem = UIMenuItem(title: "Remove", action: NSSelectorFromString("deleteCollection"))
         UIMenuController.shared.menuItems = [deleteMenuItem]
         setupNoFavsView()
@@ -45,9 +44,8 @@ class FavoritesViewController: MooWhoCollectionViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        favoritesModel.reload()
         self.collectionView?.reloadData()
-        collectionView?.backgroundView?.isHidden = !(favoritesModel.numberOfFavorites() == 0)
+        collectionView?.backgroundView?.isHidden = !favoritesModel.isEmpty
         super.viewWillAppear(animated)
     }
 
@@ -58,13 +56,13 @@ class FavoritesViewController: MooWhoCollectionViewController {
     
    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return favoritesModel.numberOfFavorites()
+        return favoritesModel.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favReuseIdentifier", for: indexPath) as! FavoritesCollectionViewCell
       //  cell.contentView.translatesAutoresizingMaskIntoConstraints = false
-        let animalIndex = favoritesModel.mapFavoriteIndexToActualIndex(for: indexPath.row)
+        let animalIndex = favoritesModel.animalIndex(for: indexPath.row)
         let imagePath = animals.croppedImageURL(forIndex: animalIndex)
         cell.imageView?.image = UIImage.init(named: imagePath!)
         return cell
@@ -83,7 +81,7 @@ class FavoritesViewController: MooWhoCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedFavorite = favoritesModel.mapFavoriteIndexToActualIndex(for: indexPath.row)
+        selectedFavorite = favoritesModel.animalIndex(for: indexPath.row)
         self.performSegue(withIdentifier: "viewFavoriteSegue", sender: self)
     }
     
@@ -99,9 +97,9 @@ class FavoritesViewController: MooWhoCollectionViewController {
      
      override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
         if (action == NSSelectorFromString("deleteCollection")) {
-            favoritesModel.deleteFavorite(at: indexPath.row)
+            favoritesModel.delete(at: indexPath.row)
             collectionView.deleteItems(at: [indexPath])
-            collectionView.backgroundView?.isHidden = !(favoritesModel.numberOfFavorites() == 0)
+            collectionView.backgroundView?.isHidden = !favoritesModel.isEmpty
         }
      }
     
@@ -111,7 +109,7 @@ class FavoritesViewController: MooWhoCollectionViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? AnimalDetailViewController {
             controller.chosenAnimalIndex = selectedFavorite
-            controller.favoritesDelegate = favoritesModel
+            controller.favorites = favoritesModel
         }
     }
     

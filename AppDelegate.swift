@@ -25,11 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let customFont = UIFont(name: CUSTOM_FONT, size: UIFont.labelFontSize) {
             UILabel.appearance().font = customFont
             UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: CUSTOM_FONT, size: 20)!]
-            if #available(iOS 11.0, *) {
-                UINavigationBar.appearance().largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: CUSTOM_FONT, size: 30)!]
-            } else {
-                // Fallback on earlier versions
-            }
+            UINavigationBar.appearance().largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: CUSTOM_FONT, size: 30)!]
             
             UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: CUSTOM_FONT, size: 20)!], for: UIControl.State.normal)
             UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: CUSTOM_FONT, size: 20)!], for: UIControl.State.disabled)
@@ -37,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: CUSTOM_FONT, size: 20)!], for: UIControl.State.focused)
         } else {
             print("""
-Failed to load the "NORTHWEST" font. Make sure the font file is included in the project and the font name is spelled correctly.
+Failed to load the "\(CUSTOM_FONT)" font. Make sure the font file is included in the project and the font name is spelled correctly.
 """
             )
         }

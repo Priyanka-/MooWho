@@ -13,7 +13,6 @@ class AnimalIdentificationViewController: MooWhoViewController, UICollectionView
     
     var chosenAnimalIndex : Int?
     var randomArray: [Int]?
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var wrongGuessIndices : [Int] = []
     @IBOutlet weak var collectionView: UICollectionView!
     let animals: Animals = Animals()
@@ -90,7 +89,7 @@ class AnimalIdentificationViewController: MooWhoViewController, UICollectionView
                 self.view.addSubview(confettiView)
                 confettiView.intensity = 0.75
                 confettiView.startConfetti()
-                appDelegate.audioPlayerHelper.playSound(animalSound: animals.animalSound(for: chosenAnimalIndex!)!, numberOfLoops: 0)
+                AudioPlayerHelper.shared.playSound(animalSound: animals.animalSound(for: chosenAnimalIndex!)!, numberOfLoops: 0)
 
                 self.view.isUserInteractionEnabled = false
                 Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: {_ in
@@ -135,7 +134,7 @@ class AnimalIdentificationViewController: MooWhoViewController, UICollectionView
     }
     
     private func replay(numberOfLoops: Int) {
-        appDelegate.audioPlayerHelper.playSound(animalSound: animals.animalSound(for: chosenAnimalIndex!)!, numberOfLoops: numberOfLoops)
+        AudioPlayerHelper.shared.playSound(animalSound: animals.animalSound(for: chosenAnimalIndex!)!, numberOfLoops: numberOfLoops)
     }
     
     //MARK: Wiggle animation when wrong cell is selected

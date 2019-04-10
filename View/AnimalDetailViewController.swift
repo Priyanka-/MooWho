@@ -57,8 +57,6 @@ class AnimalDetailViewController: MooWhoViewController {
     
     // Set these variables while segueing from another view controller
     var chosenAnimalIndex : Int = -1
-    
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var favorites = Favorites.init()
     let animals = Animals.init()
     
@@ -136,7 +134,7 @@ class AnimalDetailViewController: MooWhoViewController {
     
     
     @IBAction func playAnimalSoundButtonTapped(_ sender: Any) {
-        appDelegate.audioPlayerHelper.playSound(animalSound: animals.animalSound(for: chosenAnimalIndex)!, numberOfLoops: 0)
+        AudioPlayerHelper.shared.playSound(animalSound: animals.animalSound(for: chosenAnimalIndex)!, numberOfLoops: 0)
     }
     
     
@@ -184,11 +182,10 @@ class AnimalDetailViewController: MooWhoViewController {
     }
     
     func handlePlayTabRightSwipe() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let nextChooserVC:AnimalIdentificationViewController = UIStoryboard(name: "Main", bundle: nil)
             .instantiateViewController(withIdentifier: "animalChooserViewControllerStoryboardID")
             as! AnimalIdentificationViewController
-        let (animalIndex, animalArray) = appDelegate.playAnimalSound()
+        let (animalIndex, animalArray) = Play.playAnimalSound()
         nextChooserVC.chosenAnimalIndex = animalIndex
         nextChooserVC.randomArray = animalArray
         self.navigationController!.pushViewController(nextChooserVC, animated: true)

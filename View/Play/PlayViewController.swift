@@ -33,8 +33,7 @@ class PlayViewController: MooWhoViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? AnimalIdentificationViewController {
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let (animalIndex, animalArray) = appDelegate.playAnimalSound()
+            let (animalIndex, animalArray) = Play.playAnimalSound()
             controller.chosenAnimalIndex = animalIndex
             controller.randomArray = animalArray
         }

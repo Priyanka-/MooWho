@@ -12,16 +12,12 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var audioPlayerHelper : AudioPlayerHelper!
     var appInBackground:Bool = false
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
       //  window?.tintColor = UIColor.cyan
-        
-        audioPlayerHelper = AudioPlayerHelper.init()
-        audioPlayerHelper.activateSoundForMuteMode()
- 
+         
         if let customFont = UIFont(name: CUSTOM_FONT, size: UIFont.labelFontSize) {
             UILabel.appearance().font = customFont
             UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: CUSTOM_FONT, size: 20)!]
@@ -62,16 +58,6 @@ Failed to load the "\(CUSTOM_FONT)" font. Make sure the font file is included in
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-
-    //MARK: Audio
-    
-    //Plays a random animal sound, and returqns the index of that animal
-    func playAnimalSound() -> (Int, [Int]) {
-        let animals = Animals()
-        let (animalIndex, animalArray) = animals.generateRandomAnimals(with: CircleLayout.NUM_OF_CANDIDATES)
-        audioPlayerHelper.playSound(animalSound: animals.animalSound(for: animalIndex)!, numberOfLoops: 0)
-        return (animalIndex, animalArray)
     }
 
 }

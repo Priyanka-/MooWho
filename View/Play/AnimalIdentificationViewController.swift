@@ -103,24 +103,13 @@ class AnimalIdentificationViewController: MooWhoViewController, UICollectionView
                 
                 //try again wiggle and vibration
                 self.addWiggleAnimationToCell(cell: cell)
-                AudioServicesPlayAlertSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate), {
-                    self.replay(numberOfLoops: 0)
+                AudioServicesPlayAlertSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate), { [weak self] in
+                    self?.replay(numberOfLoops: 0)
                 })
              }
         }
     }
-    
-    /*override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if (identifier == "animalDetailSegue") {
-            let cell = sender as? AnimalCollectionViewCell
-            if (cell != nil && collectionView.indexPath(for: cell!)?.row == chosenAnimalIndex) {
-                transitioningCell = cell
-                return true
-            }
-        }
-        return false
-    }
-    */
+
     override func performSegue(withIdentifier identifier: String, sender: Any?) {
         if (identifier == "animalDetailSegue") {
             super.performSegue(withIdentifier: identifier, sender: sender)
@@ -171,7 +160,7 @@ class AnimalIdentificationViewController: MooWhoViewController, UICollectionView
     }
     
     private func randomizeInterval(interval: TimeInterval, withVariance variance:Double) -> TimeInterval {
-        let random = (Double(arc4random_uniform(1000)) - 500.0) / 500.0
+        let random = Double.random(in: -1.0...1.0)
         return interval + variance * random;
     }
 }

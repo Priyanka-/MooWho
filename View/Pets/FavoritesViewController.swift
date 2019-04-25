@@ -10,9 +10,9 @@ import UIKit
 
 class FavoritesViewController: MooWhoCollectionViewController {
     
-    var selectedFavorite : Int = -1
-    let favoritesModel : Favorites = Favorites.init()
-    let animals:Animals = Animals()
+    var selectedFavorite = -1
+    let favoritesModel = Favorites.init()
+    let animals = Animals()
     
     override func viewDidLoad() {
         let deleteMenuItem = UIMenuItem(title: "Remove", action: NSSelectorFromString("deleteCollection"))
@@ -63,8 +63,7 @@ class FavoritesViewController: MooWhoCollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "favReuseIdentifier", for: indexPath) as! FavoritesCollectionViewCell
       //  cell.contentView.translatesAutoresizingMaskIntoConstraints = false
         let animalIndex = favoritesModel.animalIndex(for: indexPath.row)
-        let imagePath = animals.croppedImageURL(forIndex: animalIndex)
-        cell.imageView?.image = UIImage.init(named: imagePath!)
+        cell.imageView?.image = UIImage.init(named: animals[animalIndex].croppedImageName())
         return cell
     }
     
@@ -115,8 +114,3 @@ class FavoritesViewController: MooWhoCollectionViewController {
     
 }
 
-extension Dictionary where Value: Comparable {
-    var valueKeySorted: [(Key, Value)] {
-        return sorted{  return $0.value > $1.value }
-    }
-}

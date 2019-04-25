@@ -14,6 +14,15 @@ struct Animal {
     let childName : String
 }
 
+extension Animal {
+    func croppedImageName() -> String {
+        return name + "Crop"
+    }
+    
+    func childImageName() -> String {
+        return name + childName
+    }
+}
 
 private let dog = Animal(name: "Dog", sound : "dogbark.m4a", childName: "Puppy")
 private let cat = Animal(name: "Cat", sound : "catmeow.m4a", childName: "Kitten")
@@ -33,9 +42,10 @@ private let monkey = Animal(name: "Monkey", sound : "monkey.m4a", childName: "In
 private let donkey = Animal(name: "Donkey", sound : "donkeybraying.m4a", childName: "Foal")
 
 struct Animals {
+    private let animals = [dog, cat, frog, duck, cow, lion, pig, elephant, goat, sheep, horse, rooster, owl, mouse, monkey, donkey]
+}
 
-private let animals = [dog, cat, frog, duck, cow, lion, pig, elephant, goat, sheep, horse, rooster, owl, mouse, monkey, donkey]
-
+extension Animals {
 /*
  Returns a tuple containing a random index and an array of random indices. The random index is at a random position in the random array
  */
@@ -63,50 +73,15 @@ func isValidIndex(index: Int?) -> Bool {
     return (index != nil && index! < animals.count && index! >= 0)
 }
 
-func animalName(for index: Int) -> String? {
-    if isValidIndex(index: index) {
-        return animals[index].name
-    }
-    return nil
-}
-
-func animalKidName(for index: Int) -> String? {
-    if isValidIndex(index: index) {
-        return animals[index].childName
-    }
-    return nil
-}
-
-func animalKidImageURL(for index: Int) -> String? {
-    if isValidIndex(index: index) {
-        return animals[index].name + animals[index].childName
-    }
-    return nil
-}
-
-func animalSound(for index: Int) -> String? {
-    if isValidIndex(index: index) {
-        return animals[index].sound
-    }
-    return nil
-}
-
-func imageURL(forIndex index : Int) -> String? {
-    if isValidIndex(index: index) {
-        return animals[index].name
-    }
-    return nil
-}
-
-func croppedImageURL(forIndex index : Int) -> String? {
-    if isValidIndex(index: index) {
-        return (animals[index].name + "Crop")
-    }
-    return nil
-}
-
 func animalCount() -> Int {
     return animals.count
+}
+   
+subscript(index: Int) -> Animal {
+    guard isValidIndex(index: index) else {
+        fatalError("Working with invalid index of animal: \(index)")
+    }
+    return animals[index]
 }
     
 }

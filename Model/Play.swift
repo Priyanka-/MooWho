@@ -13,7 +13,7 @@ struct Play {
     static func playAnimalSound() -> (Int, [Int]) {
         let animals = Animals()
         let (animalIndex, animalArray) = animals.generateRandomAnimals(with: CircleLayout.NUM_OF_CANDIDATES)
-        AudioPlayerHelper.shared.playSound(animalSound: animals.animalSound(for: animalIndex)!, numberOfLoops: 0)
+        AudioPlayerHelper.shared.playSound(animalSound: animals[animalIndex].sound, numberOfLoops: 0)
         return (animalIndex, animalArray)
     }
 }

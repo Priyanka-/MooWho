@@ -57,20 +57,22 @@ class AnimalDetailViewController: MooWhoViewController {
     
     // Set these variables while segueing from another view controller
     var chosenAnimalIndex : Int = -1
+    
     var favorites = Favorites.init()
     let animals = Animals.init()
     
-    enum navigationContext : Int{
-        case playNavigationContext = 0, favoriteNavigationContext, exploreNavigationContext
+    
+    enum navigationContext : Int {
+        case play = 0, favorite, explore
     }
-    var tabIndex: navigationContext = .playNavigationContext
+    var tabIndex: navigationContext = .play
     
     var showingAnimalChild: Bool = false {
         didSet {
             if (showingAnimalChild == true) {
-                self.title = animals.animalKidName(for: chosenAnimalIndex)
+                self.title = animals[chosenAnimalIndex].childName
             } else {
-                self.title = animals.animalName(for: chosenAnimalIndex)
+                self.title = animals[chosenAnimalIndex].name
             }
         }
     }
@@ -92,7 +94,7 @@ class AnimalDetailViewController: MooWhoViewController {
         
         showingAnimalChild = false
     
-        if (tabIndex != .playNavigationContext) {
+        if (tabIndex != .play) {
             self.navigationItem.rightBarButtonItem = nil
         }
         
@@ -100,11 +102,11 @@ class AnimalDetailViewController: MooWhoViewController {
         singleTap.numberOfTapsRequired = 1
         containerViewForImages.addGestureRecognizer(singleTap)
         
-        let image = UIImage.init(named: animals.imageURL(forIndex: chosenAnimalIndex)!)
+        let image = UIImage.init(named: animals[chosenAnimalIndex].croppedImageName())
         mainImageView.image = image
         mainImageView.layer.borderWidth = 10
         
-        let secondaryImage = UIImage.init(named: animals.animalKidImageURL(for: chosenAnimalIndex)!)
+        let secondaryImage = UIImage.init(named: animals[chosenAnimalIndex].childImageName())
         secondaryImageView.image = secondaryImage
         secondaryImageView.layer.borderWidth = 10
     }
@@ -134,32 +136,32 @@ class AnimalDetailViewController: MooWhoViewController {
     
     
     @IBAction func playAnimalSoundButtonTapped(_ sender: Any) {
-        AudioPlayerHelper.shared.playSound(animalSound: animals.animalSound(for: chosenAnimalIndex)!, numberOfLoops: 0)
+        AudioPlayerHelper.shared.playSound(animalSound: animals[chosenAnimalIndex].sound, numberOfLoops: 0)
     }
     
     
     @IBAction func rightSwipeGestureRecognized(_ sender: Any) {
         switch tabIndex {
-        case .playNavigationContext:
+        case .play:
             handlePlayTabRightSwipe()
             break
-        case .favoriteNavigationContext:
+        case .favorite:
             handleFavsTabRightSwipe()
             break
-        case .exploreNavigationContext:
+        case .explore:
             handleExploreTabRightSwipe()
         }
     }
     
     @IBAction func leftSwipeGestureRecognized(_ sender: Any) {
         switch tabIndex {
-        case .playNavigationContext:
+        case .play:
             handlePlayTabLeftSwipe()
             break
-        case .favoriteNavigationContext:
+        case .favorite:
             handleFavsTabLeftSwipe()
             break
-        case .exploreNavigationContext:
+        case .explore:
             handleExploreTabLeftSwipe()
         }
     }

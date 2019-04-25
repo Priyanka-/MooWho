@@ -12,7 +12,6 @@ private let reuseIdentifier = "exploreCellReuseIdentifier"
 
 class ExploreCollectionViewController: MooWhoCollectionViewController {
 
-    var chosenAnimalIndex : Int?
     let animals = Animals()
 
     override func viewDidLoad() {
@@ -30,8 +29,11 @@ class ExploreCollectionViewController: MooWhoCollectionViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let controller = segue.destination as? AnimalDetailViewController {
-            controller.chosenAnimalIndex = chosenAnimalIndex!
+        guard segue.identifier == "exploreDetailSegue" else {
+            return
+        }
+        if let controller = segue.destination as? AnimalDetailViewController, let animalIndex = (sender as? ExploreCollectionViewCell)?.animal?.1 {
+            controller.chosenAnimalIndex = animalIndex
         }
     }
 
@@ -43,11 +45,7 @@ class ExploreCollectionViewController: MooWhoCollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ExploreCollectionViewCell
-        
-        if let imageName = animals.croppedImageURL(forIndex: indexPath.row) {
-            cell.imageView.image = UIImage.init(named: imageName)
-        }
-
+        cell.animal = (animals[indexPath.row], indexPath.row)
         return cell
     }
 
@@ -64,10 +62,10 @@ class ExploreCollectionViewController: MooWhoCollectionViewController {
         return true
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+   /* override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         chosenAnimalIndex = indexPath.row
         self.performSegue(withIdentifier: "exploreDetailSegue", sender: self)
-    }
+    }*/
 
     /*
     // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item

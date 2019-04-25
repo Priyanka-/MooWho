@@ -15,7 +15,7 @@ class AnimalIdentificationViewController: MooWhoViewController, UICollectionView
     var randomArray: [Int]?
     var wrongGuessIndices : [Int] = []
     @IBOutlet weak var collectionView: UICollectionView!
-    let animals: Animals = Animals()
+    let animals = Animals()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,9 +54,7 @@ class AnimalIdentificationViewController: MooWhoViewController, UICollectionView
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "animalCellReuseIdentifier", for: indexPath) as! AnimalCollectionViewCell
 
         let animalIndex = randomArray![indexPath.row]
-        if let imageName = animals.croppedImageURL(forIndex: animalIndex) {
-            cell.imageView.image = UIImage.init(named: imageName)
-        }
+        cell.imageView.image = UIImage.init(named: animals[animalIndex].croppedImageName())
         
         if (wrongGuessIndices.contains(indexPath.row)) {
             cell.isCrossedOut = true
@@ -89,7 +87,7 @@ class AnimalIdentificationViewController: MooWhoViewController, UICollectionView
                 self.view.addSubview(confettiView)
                 confettiView.intensity = 0.75
                 confettiView.startConfetti()
-                AudioPlayerHelper.shared.playSound(animalSound: animals.animalSound(for: chosenAnimalIndex!)!, numberOfLoops: 0)
+                AudioPlayerHelper.shared.playSound(animalSound: animals[ chosenAnimalIndex!].sound, numberOfLoops: 0)
 
                 self.view.isUserInteractionEnabled = false
                 Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: {_ in
@@ -123,7 +121,7 @@ class AnimalIdentificationViewController: MooWhoViewController, UICollectionView
     }
     
     private func replay(numberOfLoops: Int) {
-        AudioPlayerHelper.shared.playSound(animalSound: animals.animalSound(for: chosenAnimalIndex!)!, numberOfLoops: numberOfLoops)
+        AudioPlayerHelper.shared.playSound(animalSound: animals[chosenAnimalIndex!].sound, numberOfLoops: numberOfLoops)
     }
     
     //MARK: Wiggle animation when wrong cell is selected

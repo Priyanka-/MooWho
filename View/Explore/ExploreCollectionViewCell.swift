@@ -16,4 +16,17 @@ class ExploreCollectionViewCell: MooWhoCollectionViewCell {
         return UIColor.brown.cgColor
     }
 
+    var animal:(Animal, Int)? {
+        didSet {
+            if let _ = animal {
+                imageView.image = UIImage.init(named: animal!.0.croppedImageName())
+            } else {
+                imageView.image = nil
+            }
+        }
+    }
+    
+    override func prepareForReuse() {
+        animal = nil
+    }
 }

@@ -27,7 +27,7 @@ struct Favorite : Comparable, Codable {
  */
 struct MooWhoStorage {
     
-    static var shared:MooWhoStorage = MooWhoStorage.init()
+    static var shared = MooWhoStorage.init()
     
     private let favoritesKey = "favorites"
     private var favorites:[Favorite]

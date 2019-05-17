@@ -115,8 +115,7 @@ class AnimalIdentificationViewController: MooWhoViewController, UICollectionView
         }
     }
     
-    //MARK:Private methods
-    @IBAction func replayTapped(_ sender: Any) {
+    @IBAction func replayButtonTapped(_ sender: Any) {
         replay(numberOfLoops: 0)
     }
     

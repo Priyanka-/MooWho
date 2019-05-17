@@ -582,7 +582,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="12q-gg-5Hk"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Guess who?" id="bva-ko-zFF"/>
+                    <navigationItem key="navigationItem" title="Guess who?" id="bva-ko-zFF">
+                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="N6s-Ax-huK">
+                            <connections>
+                                <action selector="replayButtonTapped:" destination="o74-Cb-nXr" id="tXZ-AU-MBp"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="aBb-lA-OEt" id="Xb6-iA-vmX"/>
                         <segue destination="bWs-T1-p87" kind="show" identifier="animalDetailSegue" id="ebP-KD-JDO"/>
@@ -627,7 +633,7 @@
         <image name="unfavoriteTabIconCompact" width="17" height="17"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5tE-rg-eHp"/>
+        <segue reference="ebP-KD-JDO"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
 </document>
